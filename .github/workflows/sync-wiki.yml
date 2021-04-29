@@ -1,0 +1,29 @@
+name: Sync Wiki To Main Repo
+
+####################################################################
+# Start the job when the wiki folder is updated in the main branch #
+####################################################################
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "documentation/wiki/**"
+
+jobs:
+  sync-wiki-to-main:
+    name: Sync Wiki To Main Repo
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Local repository checkout
+        uses: actions/checkout@v2
+
+      - name: Upload Wiki
+        uses: Andrew-Chen-Wang/github-wiki-action@v2
+        env:
+          WIKI_DIR: "documentation/wiki/"
+          GH_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          GH_MAIL: "action@github.com"
+          GH_NAME: "github-actions"
+          REPO: "Azure/terraform-azurerm-caf-enterprise-scale"
